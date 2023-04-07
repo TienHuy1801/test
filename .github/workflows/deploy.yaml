@@ -14,13 +14,21 @@ jobs:
       - name: Checkout files
         uses: actions/checkout@v2
 
-      - uses: mr-smithers-excellent/docker-build-push@v4
-        name: Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
         with:
-          image: tienhuy1801/my-app
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/my-app:${{ github.ref }}
+        env:
+          DOCKER_USERNAME: ${{ github.repository_owner }}
+          DOCKER_PASSWORD: ${{ secrets.PAT }}
+          
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
           registry: ghcr.io
-          dockerfile: Dockerfile
-          user: ${{ github.actor }}
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.PAT }}
   deploy:
     name: deploy
