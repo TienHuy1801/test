@@ -12,6 +12,7 @@ def health_liveness():
 def health_readiness():
     return '', 200
 
+
 @app.route('/')
 def hello_world():
     return "Hello World very new"
