@@ -1,11 +1,11 @@
-name: Run pytest on pull request
+name: Run pytest and autopep8 on pull request
 
 on:
   pull_request:
     branches: [main]
 
 jobs:
-  pytest:
+  pretest:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,3 +21,6 @@ jobs:
 
       - name: Run pytest
         run: pytest
+
+      - name: Run autopep8
+        run: autopep8 . --recursive --aggressive --aggressive --diff --exit-code
